@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_clone/utils/colors.dart';
 
 pickImage(ImageSource source) async {
   final ImagePicker _imagePicker = ImagePicker();
@@ -7,5 +9,20 @@ pickImage(ImageSource source) async {
   if (_file != null) {
     return await _file.readAsBytes();
   }
-  print("No image selected");
+}
+
+showSnackBar(BuildContext context, String content) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    elevation: 0.0,
+    backgroundColor: mobileSearchColor,
+    content: Container(
+      height: MediaQuery.of(context).size.height * 0.02,
+      alignment: Alignment.center,
+      child: Text(
+        content,
+        style: const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+      ),
+    ),
+  ));
 }

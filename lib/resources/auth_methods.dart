@@ -40,6 +40,10 @@ class AuthMethods {
         });
         res = 'success';
       }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'invalid-email') {
+        res = 'The email is badly formatted';
+      }
     } catch (err) {
       res = err.toString();
     }
