@@ -9,6 +9,8 @@ import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
 
+import 'login_page.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -190,9 +192,31 @@ class _SignupPageState extends State<SignupPage> {
                           : const Text('Sign up'),
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: Container(),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: const Text("Have an account?"),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                                color: blueColor, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
