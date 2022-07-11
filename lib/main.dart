@@ -48,9 +48,7 @@ class MyApp extends StatelessWidget {
                 child: Text("${snapshot.error}"),
               );
             }
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
                 color: primaryColor,

@@ -8,7 +8,7 @@ class MobileScreenLayout extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Container(
-        child: Text("This is mobile layout"),
+        child: Center(child: Text("This is mobile layout")),
       )),
     );
   }

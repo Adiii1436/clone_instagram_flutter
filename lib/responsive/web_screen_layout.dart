@@ -8,7 +8,7 @@ class WebScreenLayout extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Container(
-        child: Text("This is web layout"),
+        child: Center(child: Text("This is web layout")),
       )),
     );
   }

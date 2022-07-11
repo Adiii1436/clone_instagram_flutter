@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/pages/sign_up_page.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
+import 'package:instagram_clone/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone/responsive/responsive_layout.dart';
+import 'package:instagram_clone/responsive/web_screen_layout.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
 
@@ -38,9 +41,18 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = false;
     });
 
-    if (res != 'success') {
+    if (res == 'success') {
+      navigateToHomePage();
+    } else if (res != 'success') {
       _snackBar(res);
     }
+  }
+
+  void navigateToHomePage() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout())));
   }
 
   void _snackBar(String content) {
@@ -117,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const SignupPage()));
                 },
                 child: Container(
