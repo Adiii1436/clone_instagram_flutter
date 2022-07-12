@@ -3,11 +3,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/utils/colors.dart';
 
 pickImage(ImageSource source) async {
-  final ImagePicker _imagePicker = ImagePicker();
-  XFile? _file = await _imagePicker.pickImage(source: source);
+  final ImagePicker imagePicker = ImagePicker();
+  XFile? file = await imagePicker.pickImage(source: source);
 
-  if (_file != null) {
-    return await _file.readAsBytes();
+  if (file != null) {
+    return await file.readAsBytes();
   }
 }
 
