@@ -107,9 +107,8 @@ class _SignupPageState extends State<SignupPage> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Container(),
+                  const SizedBox(
+                    height: 125,
                   ),
                   SvgPicture.asset(
                     'assets/icons/ic_instagram.svg',
@@ -136,6 +135,7 @@ class _SignupPageState extends State<SignupPage> {
                           left: 45,
                           child: IconButton(
                               splashRadius: 15,
+                              iconSize: 25,
                               onPressed: () {
                                 selectImage();
                               },

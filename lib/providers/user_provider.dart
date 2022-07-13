@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:instagram_clone/models/user.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
+import '../models/user.dart';
 
 class UserProvider with ChangeNotifier {
   User? _user;
