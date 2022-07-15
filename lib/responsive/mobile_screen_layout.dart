@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/providers/user_provider.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/global_variables.dart';
+import 'package:provider/provider.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -14,12 +16,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _page = 0;
   PageController pageController = PageController();
 
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
-
   void navigationTapped(int page) {
     pageController.jumpToPage(page);
   }
@@ -28,6 +24,12 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     setState(() {
       _page = page;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
   }
 
   @override

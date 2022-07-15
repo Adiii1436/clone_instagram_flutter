@@ -23,7 +23,7 @@ class Post {
         "username": username,
         "uid": uid,
         "description": description,
-        "postI": postId,
+        "postId": postId,
         "datePublished": datePublished,
         "likes": likes,
         "profileImg": profileImg,

@@ -17,7 +17,7 @@ class AddPostPage extends StatefulWidget {
 
 class _AddPostPageState extends State<AddPostPage> {
   Uint8List? _file;
-  final TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
   String res = '';
   bool _isLoading = false;
 
@@ -108,6 +108,9 @@ class _AddPostPageState extends State<AddPostPage> {
         _snackBar(res);
       }
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       _snackBar(res);
     }
   }
@@ -116,6 +119,12 @@ class _AddPostPageState extends State<AddPostPage> {
     setState(() {
       _file = null;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _descriptionController = TextEditingController(text: "");
   }
 
   @override
