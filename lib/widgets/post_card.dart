@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/models/user.dart';
+import 'package:instagram_clone/pages/comment_page.dart';
 import 'package:instagram_clone/providers/user_provider.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utils/colors.dart';
@@ -145,7 +147,13 @@ class _PostCardState extends State<PostCard> {
                           )
                         : const Icon(Icons.favorite_border))),
             IconButton(
-                onPressed: () {}, icon: const Icon(Icons.comment_outlined)),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CommentScreen(
+                            snap: widget.snap,
+                          )));
+                },
+                icon: const Icon(Icons.comment_outlined)),
             IconButton(
                 onPressed: () {},
                 icon: const Icon(
@@ -193,16 +201,24 @@ class _PostCardState extends State<PostCard> {
                         ]),
                   ),
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 6),
-                    child: const Text(
-                      "View all 200 coments",
-                      style: TextStyle(color: secondaryColor),
-                    ),
-                  ),
-                ),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('posts')
+                        .doc(widget.snap['postId'])
+                        .collection('comments')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      return InkWell(
+                        onTap: () {},
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 6),
+                          child: Text(
+                            "View all ${snapshot.data?.docs.length} coments",
+                            style: const TextStyle(color: secondaryColor),
+                          ),
+                        ),
+                      );
+                    }),
                 Container(
                   margin: const EdgeInsets.only(top: 6),
                   child: Text(
