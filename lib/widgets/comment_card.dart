@@ -11,8 +11,6 @@ class CommentCard extends StatefulWidget {
 }
 
 class _CommentCardState extends State<CommentCard> {
-  get blueColor => null;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,7 +55,8 @@ class _CommentCardState extends State<CommentCard> {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: const Icon(
                 Icons.favorite,
-                color: Colors.white,
+                color: Colors.red,
+                size: 20,
               )),
         )
       ]),

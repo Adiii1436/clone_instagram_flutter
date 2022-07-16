@@ -34,34 +34,59 @@ class _CommentScreenState extends State<CommentScreen> {
         title: const Text("Comments"),
         backgroundColor: mobileBackgroundColor,
       ),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('posts')
-              .doc(widget.snap['postId'])
-              .collection('comments')
-              .orderBy('datePublished', descending: true)
-              .snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      body: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.07,
+            child: Row(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 17),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(widget.snap['profileImg']),
+                  radius: 20,
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    widget.snap['description'],
+                  ))
+            ]),
+          ),
+          const Divider(),
+          Expanded(
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('posts')
+                    .doc(widget.snap['postId'])
+                    .collection('comments')
+                    .orderBy('datePublished', descending: true)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-            return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: ((context, index) {
-                  return CommentCard(
-                    snap: snapshot.data!.docs[index].data(),
-                  );
-                }));
-          }),
+                  return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: ((context, index) {
+                        return CommentCard(
+                          snap: snapshot.data!.docs[index].data(),
+                        );
+                      }));
+                }),
+          ),
+        ],
+      ),
       bottomNavigationBar: SafeArea(
           child: Container(
+        // color: Colors.red,
         height: kToolbarHeight,
         margin:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
         child: Row(children: [
           CircleAvatar(
             backgroundImage: NetworkImage(user.photoUrl),

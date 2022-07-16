@@ -57,22 +57,24 @@ class _PostCardState extends State<PostCard> {
                       context: context,
                       builder: (context) {
                         return Dialog(
+                          backgroundColor: Colors.grey[900],
                           child: ListView(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shrinkWrap: true,
-                            children: [
-                              'Delete',
-                            ]
-                                .map((e) => InkWell(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 16),
-                                        child: Text(e),
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shrinkWrap: true,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    Navigator.of(context).pop();
+                                    await FirestoreMethods()
+                                        .deletePost(widget.snap['postId']);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 16),
+                                    child: const Text('delete'),
+                                  ),
+                                )
+                              ]),
                         );
                       });
                 },
@@ -101,7 +103,7 @@ class _PostCardState extends State<PostCard> {
                 width: double.infinity,
                 child: Image.network(
                   widget.snap['postUrl'],
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
               AnimatedOpacity(
@@ -213,7 +215,7 @@ class _PostCardState extends State<PostCard> {
                         child: Container(
                           margin: const EdgeInsets.only(top: 6),
                           child: Text(
-                            "View all ${snapshot.data?.docs.length} coments",
+                            "View all ${snapshot.hasData ? snapshot.data?.docs.length : 0} coments",
                             style: const TextStyle(color: secondaryColor),
                           ),
                         ),

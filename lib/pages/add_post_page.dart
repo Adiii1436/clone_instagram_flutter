@@ -122,12 +122,6 @@ class _AddPostPageState extends State<AddPostPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _descriptionController = TextEditingController(text: "");
-  }
-
-  @override
   void dispose() {
     super.dispose();
     _descriptionController.dispose();
@@ -162,6 +156,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 TextButton(
                     onPressed: () async {
                       await postImage(user.uid, user.username, user.photoUrl);
+                      _descriptionController.text = '';
                     },
                     child: const Text(
                       "Post",
