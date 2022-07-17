@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/pages/profile_page.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/global_variables.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
@@ -23,6 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: mobileBackgroundColor,
@@ -44,7 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         isGreaterThanOrEqualTo: _searchController.text)
                     .get(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -53,16 +56,27 @@ class _SearchScreenState extends State<SearchScreen> {
                   return ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                snapshot.data!.docs[index]['photoUrl']),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ProfilePage(
+                                    uid: snapshot.data!.docs[index]['uid'])));
+                          },
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(snapshot
+                                      .data!.docs[index]
+                                      .data()
+                                      .toString()
+                                      .contains('photoUrl')
+                                  ? snapshot.data!.docs[index]['photoUrl']
+                                  : ''),
+                            ),
+                            title: Text(snapshot.data!.docs[index]['username']),
                           ),
-                          title: Text(snapshot.data!.docs[index]['username']),
                         );
                       });
-                },
-              )
+                })
             : FutureBuilder(
                 future: FirebaseFirestore.instance.collection('posts').get(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -85,8 +99,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       crossAxisSpacing: 5,
                       // padding: const EdgeInsets.only(left: 13),
                       staggeredTileBuilder: (index) {
-                        return StaggeredTile.count(
-                            (index % 7 == 0 ? 2 : 1), (index % 7 == 0 ? 2 : 1));
+                        return width > webScreenSize
+                            ? const StaggeredTile.count(1, 1)
+                            : StaggeredTile.count((index % 7 == 0 ? 2 : 1),
+                                (index % 7 == 0 ? 2 : 1));
                       });
                 },
               ));

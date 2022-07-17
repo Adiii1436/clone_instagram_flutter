@@ -32,8 +32,8 @@ class AuthMethods {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
-        String photoUrl = await StorageMethods()
-            .uploadImageToStorage('profilePictures', file, false);
+        // String photoUrl = await StorageMethods()
+        //     .uploadImageToStorage('profilePictures', file, false);
 
         model.User user = model.User(
             email: email,
@@ -42,7 +42,8 @@ class AuthMethods {
             bio: bio,
             followers: [],
             following: [],
-            photoUrl: photoUrl);
+            photoUrl:
+                'https://cdn.pixabay.com/photo/2022/07/12/17/12/dog-7317820_960_720.jpg');
 
         //add user details to the firebase
         await _firestore
@@ -76,5 +77,9 @@ class AuthMethods {
       res = err.toString();
     }
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }
