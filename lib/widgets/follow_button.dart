@@ -23,7 +23,6 @@ class FollowButton extends StatelessWidget {
       child: TextButton(
         onPressed: function,
         child: Container(
-          width: 235,
           height: 27,
           alignment: Alignment.center,
           decoration: BoxDecoration(
